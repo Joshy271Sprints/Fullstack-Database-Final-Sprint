@@ -1,11 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple EJS Website</title>
+    <title>Car Search</title>
     <link rel="stylesheet" type="text/css" href="/styles/main.css" />
   </head>
   <body>
-    <h1>Welcome to our Simple EJS Website!</h1>
-    <p><%= message %></p>
+    <form id="search-form">
+      <input type="text" id="make-input" placeholder="Enter car make" />
+      <button type="submit">Search</button>
+    </form>
+    <div id="search-results"></div>
+    <script>
+      document
+        .getElementById("search-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
+          const makeInput = document.getElementById("make-input").value;
+          fetch(`/get_cars_by_make?make=${makeInput}`)
+            .then((response) => response.json())
+            .then((data) => {
+              const searchResults = document.getElementById("search-results");
+              searchResults.innerHTML = "";
+              data.forEach((car) => {
+                const carInfo = document.createElement("div");
+                carInfo.textContent =
+                  car.car_model + " (" + car.car_modelyear + ")";
+                searchResults.appendChild(carInfo);
+              });
+            });
+        });
+    </script>
   </body>
 </html>
