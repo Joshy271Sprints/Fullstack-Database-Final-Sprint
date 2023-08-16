@@ -71,7 +71,7 @@ app.get("/get_cars_by_make", (req, res) => {
   }
 });
 
-const port = 3001;
+const port = 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
