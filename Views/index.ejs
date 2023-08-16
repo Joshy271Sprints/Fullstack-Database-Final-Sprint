@@ -6,6 +6,11 @@
   </head>
   <body>
     <form id="search-form">
+      <label for="database-select">Select Database:</label>
+      <select id="database-select">
+        <option value="postgres">PostgreSQL</option>
+        <option value="mongo">MongoDB</option>
+      </select>
       <input type="text" id="make-input" placeholder="Enter car make" />
       <button type="submit">Search</button>
     </form>
@@ -16,7 +21,17 @@
         .addEventListener("submit", function (event) {
           event.preventDefault();
           const makeInput = document.getElementById("make-input").value;
-          fetch(`/get_cars_by_make?make=${makeInput}`)
+          const selectedDatabase =
+            document.getElementById("database-select").value;
+
+          let url;
+          if (selectedDatabase === "postgres") {
+            url = `/get_cars_by_make?database=postgres&make=${makeInput}`;
+          } else if (selectedDatabase === "mongo") {
+            url = `/get_cars_by_make?database=mongo&make=${makeInput}`;
+          }
+
+          fetch(url)
             .then((response) => response.json())
             .then((data) => {
               const searchResults = document.getElementById("search-results");
